@@ -1,9 +1,14 @@
 ---
+import { Icon } from 'astro-icon/components';
 ---
 
 <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false">
-	<span class="icon sun" aria-hidden="true">☀</span>
-	<span class="icon moon" aria-hidden="true">🌙</span>
+	<span class="icon sun" aria-hidden="true">
+		<Icon name="carbon:light" width="18" height="18" />
+	</span>
+	<span class="icon moon" aria-hidden="true">
+		<Icon name="carbon:moon" width="18" height="18" />
+	</span>
 </button>
 
 <script>
@@ -49,39 +54,35 @@
 	.theme-toggle {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.35em;
-		padding: 0.45em 0.7em;
-		border-radius: 999px;
-		border: 1px solid rgba(var(--gray), 0.3);
-		background: rgb(var(--surface));
+		justify-content: center;
+		gap: 0;
+		padding: 0.25em;
+		border-radius: 6px;
+		border: none;
+		background: transparent;
 		color: rgb(var(--black));
 		cursor: pointer;
-		box-shadow: 0 6px 20px rgba(var(--gray), 0.18);
-		transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease,
-			box-shadow 0.2s ease;
+		box-shadow: none;
+		transition: color 0.2s ease, background-color 0.2s ease;
 	}
 	.theme-toggle:hover {
-		border-color: rgba(var(--accent-dark), 0.35);
-		color: var(--accent-dark);
-		box-shadow: 0 8px 28px rgba(var(--gray), 0.2);
+		color: var(--accent);
+		background-color: rgba(var(--accent), 0.08);
 	}
 	.theme-toggle:focus-visible {
 		outline: 2px solid var(--accent);
-		outline-offset: 3px;
+		outline-offset: 2px;
 	}
 	.theme-toggle .icon {
-		font-size: 0.95em;
+		display: none;
+		align-items: center;
+		justify-content: center;
 		transition: opacity 0.2s ease, transform 0.2s ease;
 	}
-	.theme-toggle .moon {
-		opacity: 0.6;
-	}
-	.theme-toggle[data-theme='dark'] .sun {
-		opacity: 0.35;
-		transform: translateY(-1px);
+	.theme-toggle[data-theme='light'] .sun {
+		display: inline-flex;
 	}
 	.theme-toggle[data-theme='dark'] .moon {
-		opacity: 1;
-		transform: translateY(1px);
+		display: inline-flex;
 	}
 </style>
