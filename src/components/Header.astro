@@ -6,9 +6,8 @@ import ThemeToggle from './ThemeToggle.astro';
 
 <header>
 	<nav>
-		<h2><a href="/">{SITE_TITLE}</a></h2>
+		<div class="brand" aria-label={SITE_TITLE}>{SITE_TITLE}</div>
 		<div class="internal-links">
-			<HeaderLink href="/">Home</HeaderLink>
 			<HeaderLink href="/blog">Blog</HeaderLink>
 			<HeaderLink href="/about">About</HeaderLink>
 		</div>
@@ -23,33 +22,53 @@ import ThemeToggle from './ThemeToggle.astro';
 		padding: 0 1em;
 		background: rgb(var(--surface));
 	}
-	h2 {
-		margin: 0;
-		font-size: 1em;
-	}
-
-	h2 a,
-	h2 a.active {
-		text-decoration: none;
-	}
 	nav {
-		display: flex;
+		width: 720px;
+		max-width: calc(100% - 2em);
+		margin: 0 auto;
+		display: grid;
+		grid-template-columns: minmax(120px, 1fr) auto auto;
 		align-items: center;
-		justify-content: space-between;
+		gap: 1.25em;
+		padding: 1.2em 0;
+	}
+	.brand {
+		font-size: 1.05em;
+		font-weight: 700;
+		letter-spacing: 0.02em;
+		color: rgb(var(--black));
+	}
+	.internal-links {
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+		gap: 1em;
+		font-size: 0.95em;
 	}
 	nav a {
-		padding: 1em 0.5em;
+		padding: 0.35em 0.25em;
 		color: var(--black);
-		border-bottom: 4px solid transparent;
+		border-bottom: 2px solid transparent;
 		text-decoration: none;
+		letter-spacing: 0.02em;
 	}
 	nav a.active {
-		text-decoration: none;
 		border-bottom-color: var(--accent);
 	}
 	.header-actions {
 		display: flex;
 		align-items: center;
 		gap: 0.5em;
+	}
+	@media (max-width: 640px) {
+		nav {
+			grid-template-columns: 1fr auto;
+			grid-template-rows: auto auto;
+			gap: 0.6em 1em;
+		}
+		.internal-links {
+			grid-column: 1 / -1;
+			justify-content: flex-start;
+		}
 	}
 </style>
