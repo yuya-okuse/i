@@ -1,0 +1,87 @@
+---
+---
+
+<button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false">
+	<span class="icon sun" aria-hidden="true">☀</span>
+	<span class="icon moon" aria-hidden="true">🌙</span>
+</button>
+
+<script>
+	const root = document.documentElement;
+	const toggle = document.getElementById('theme-toggle');
+
+	if (toggle) {
+		const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+		const applyTheme = (theme, persist = false) => {
+			root.dataset.theme = theme;
+			toggle.dataset.theme = theme;
+			toggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+			const nextLabel = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+			toggle.setAttribute('aria-label', nextLabel);
+			if (persist) {
+				localStorage.setItem('theme', theme);
+			}
+		};
+
+		const stored = localStorage.getItem('theme');
+		const initialTheme = stored ?? (prefersDark.matches ? 'dark' : 'light');
+		applyTheme(initialTheme);
+
+		toggle.addEventListener('click', () => {
+			const nextTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+			applyTheme(nextTheme, true);
+		});
+
+		const handleMediaChange = (event) => {
+			if (localStorage.getItem('theme')) return;
+			applyTheme(event.matches ? 'dark' : 'light');
+		};
+
+		if (prefersDark.addEventListener) {
+			prefersDark.addEventListener('change', handleMediaChange);
+		} else if (prefersDark.addListener) {
+			prefersDark.addListener(handleMediaChange);
+		}
+	}
+</script>
+
+<style>
+	.theme-toggle {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35em;
+		padding: 0.45em 0.7em;
+		border-radius: 999px;
+		border: 1px solid rgba(var(--gray), 0.3);
+		background: rgb(var(--surface));
+		color: rgb(var(--black));
+		cursor: pointer;
+		box-shadow: 0 6px 20px rgba(var(--gray), 0.18);
+		transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease,
+			box-shadow 0.2s ease;
+	}
+	.theme-toggle:hover {
+		border-color: rgba(var(--accent-dark), 0.35);
+		color: var(--accent-dark);
+		box-shadow: 0 8px 28px rgba(var(--gray), 0.2);
+	}
+	.theme-toggle:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 3px;
+	}
+	.theme-toggle .icon {
+		font-size: 0.95em;
+		transition: opacity 0.2s ease, transform 0.2s ease;
+	}
+	.theme-toggle .moon {
+		opacity: 0.6;
+	}
+	.theme-toggle[data-theme='dark'] .sun {
+		opacity: 0.35;
+		transform: translateY(-1px);
+	}
+	.theme-toggle[data-theme='dark'] .moon {
+		opacity: 1;
+		transform: translateY(1px);
+	}
+</style>
