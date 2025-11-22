@@ -6,7 +6,7 @@ import ThemeToggle from './ThemeToggle.astro';
 
 <header>
 	<nav>
-		<div class="brand" aria-label={SITE_TITLE}>{SITE_TITLE}</div>
+		<a class="brand" aria-label={SITE_TITLE} href="/blog">{SITE_TITLE}</a>
 		<div class="internal-links">
 			<HeaderLink href="/blog">Blog</HeaderLink>
 			<HeaderLink href="/about">About</HeaderLink>
@@ -23,7 +23,7 @@ import ThemeToggle from './ThemeToggle.astro';
 		background: rgb(var(--surface));
 	}
 	nav {
-		width: 720px;
+		width: 640px;
 		max-width: calc(100% - 2em);
 		margin: 0 auto;
 		display: grid;
@@ -48,12 +48,9 @@ import ThemeToggle from './ThemeToggle.astro';
 	nav a {
 		padding: 0.35em 0.25em;
 		color: var(--black);
-		border-bottom: 2px solid transparent;
+		border: none;
 		text-decoration: none;
 		letter-spacing: 0.02em;
-	}
-	nav a.active {
-		border-bottom-color: var(--accent);
 	}
 	.header-actions {
 		display: flex;
