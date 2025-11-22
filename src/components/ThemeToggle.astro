@@ -12,12 +12,17 @@ import { Icon } from 'astro-icon/components';
 </button>
 
 <script>
+	type Theme = 'light' | 'dark';
+
 	const root = document.documentElement;
 	const toggle = document.getElementById('theme-toggle');
 
-	if (toggle) {
+	const isTheme = (value: unknown): value is Theme => value === 'light' || value === 'dark';
+
+	if (toggle instanceof HTMLButtonElement) {
 		const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-		const applyTheme = (theme, persist = false) => {
+
+		const applyTheme = (theme: Theme, persist = false) => {
 			root.dataset.theme = theme;
 			toggle.dataset.theme = theme;
 			toggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
@@ -28,16 +33,17 @@ import { Icon } from 'astro-icon/components';
 			}
 		};
 
-		const stored = localStorage.getItem('theme');
-		const initialTheme = stored ?? (prefersDark.matches ? 'dark' : 'light');
+		const storedRaw = localStorage.getItem('theme');
+		const stored = isTheme(storedRaw) ? storedRaw : null;
+		const initialTheme: Theme = stored ?? (prefersDark.matches ? 'dark' : 'light');
 		applyTheme(initialTheme);
 
 		toggle.addEventListener('click', () => {
-			const nextTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+			const nextTheme: Theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
 			applyTheme(nextTheme, true);
 		});
 
-		const handleMediaChange = (event) => {
+		const handleMediaChange = (event: MediaQueryListEvent) => {
 			if (localStorage.getItem('theme')) return;
 			applyTheme(event.matches ? 'dark' : 'light');
 		};
