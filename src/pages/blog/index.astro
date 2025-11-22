@@ -9,10 +9,12 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
-const formatDate = (date: Date) =>
-	new Intl.DateTimeFormat('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(
-		date,
-	);
+const formatDate = (date: Date) => {
+	const y = date.getFullYear();
+	const m = String(date.getMonth() + 1).padStart(2, '0');
+	const d = String(date.getDate()).padStart(2, '0');
+	return `${y}.${m}.${d}`;
+};
 ---
 
 <!doctype html>
@@ -25,30 +27,26 @@ const formatDate = (date: Date) =>
 			}
 			ul { list-style: none; padding: 0; margin: 0; }
 			.item {
-				display: grid;
-				grid-template-columns: 1fr auto;
+				display: flex;
 				align-items: center;
-				gap: 1rem;
-				padding: 0.8em 0;
+				justify-content: space-between;
+				gap: 0.6rem;
+				padding: 0.7em 0;
 				text-decoration: none;
 				color: rgb(var(--black));
-				border-bottom: 1px solid rgb(var(--gray-light));
-				transition: color 0.2s ease, border-color 0.2s ease;
+				transition: color 0.2s ease;
 			}
-			.title { margin: 0; font-weight: 600; }
+			.title { margin: 0; font-weight: 600; white-space: nowrap; }
 			.date {
 				font-size: 0.95em;
 				color: rgb(var(--gray));
 				white-space: nowrap;
+				flex-shrink: 0;
 			}
-			.item:hover {
-				color: rgb(var(--accent));
-				border-color: rgba(var(--accent), 0.35);
-			}
+			.item:hover .title { color: rgb(var(--accent)); }
 			@media (max-width: 720px) {
 				main { width: 100%; }
-				.item { grid-template-columns: 1fr; align-items: start; }
-				.date { justify-self: start; }
+				.item { flex-wrap: wrap; gap: 0.35rem 0.5rem; }
 			}
 		</style>
 	</head>
