@@ -30,11 +30,9 @@ const formatDate = (date: Date) => {
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				gap: 0.6rem;
-				padding: 0.7em 0;
 				text-decoration: none;
 				color: rgb(var(--black));
-				transition: color 0.2s ease;
+				transition: color 0.2s ease, opacity 0.2s ease;
 			}
 			.title {
 				margin: 0;
@@ -49,7 +47,9 @@ const formatDate = (date: Date) => {
 				flex-shrink: 0;
 				font-variant-numeric: tabular-nums;
 			}
-			.item:hover .title { color: rgb(var(--accent)); }
+			ul:hover .item { opacity: 0.45; }
+			ul .item:hover { opacity: 1; }
+			ul .item:hover .title { color: rgb(var(--accent)); }
 			@media (max-width: 720px) {
 				main { width: 100%; }
 				.item { flex-wrap: wrap; gap: 0.35rem 0.5rem; }
